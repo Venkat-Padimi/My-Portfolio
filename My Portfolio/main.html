@@ -1,0 +1,533 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Venkat • Portfolio</title>
+  <meta name="description"
+    content="Portfolio of Venkat — student, builder, tinkerer. Projects: Custom PC Build, Web, Game dev, etc.">
+  <style>
+    :root {
+      --bg: #140a25;
+      --card: #1b1030;
+      --muted: #9aa4b2;
+      --accent: #7c3aed;
+      --glass: rgba(255, 255, 255, 0.03);
+      --maxw: 1100px;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    html,
+    body {
+      height: 100%
+    }
+
+    body {
+      margin: 0;
+      background: linear-gradient(180deg, var(--bg), #0a0212);
+      background-attachment: fixed;
+      color: #e6eef6;
+      display: flex;
+      justify-content: center;
+      padding: 40px 20px
+    }
+
+    .wrap {
+      width: 100%;
+      max-width: var(--maxw)
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 28px
+    }
+
+    .brand {
+      display: flex;
+      gap: 14px;
+      align-items: center
+    }
+
+    .logo {
+      width: 56px;
+      height: 56px;
+      border-radius: 12px;
+      /* removed gradient background in favor of image with border */
+      /* Tech frame logo */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      overflow: hidden;
+      /* This might hide the corner accents if they are outside? No, absolute positioning should work if overflow is visible? But logo needs overflow hidden for image radius. */
+      /* Actually, complex borders on rounded images are tricky. Let's wrap the logo contents to be safe or just apply the border style directly. 
+         The user wants the "styled frame".
+         If overflow is hidden, ::after/before outside won't show.
+         I'll make overflow visible for the frame, but border-radius will clip content. 
+         Let's try to keep it simple but matching style. */
+
+      border: 1px solid rgba(124, 58, 237, 0.5);
+      box-shadow: 0 0 15px rgba(124, 58, 237, 0.4);
+      position: relative;
+      overflow: visible;
+      /* Needed for corner accents */
+    }
+
+    .logo img {
+      border-radius: 12px;
+      /* moved radius to img */
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Logo Tech Corners */
+    .logo::before,
+    .logo::after {
+      content: "";
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      pointer-events: none;
+    }
+
+    .logo::before {
+      top: -1px;
+      left: -1px;
+      border-top: 2px solid var(--accent);
+      border-left: 2px solid var(--accent);
+      border-top-left-radius: 12px;
+    }
+
+    .logo::after {
+      bottom: -1px;
+      right: -1px;
+      border-bottom: 2px solid var(--accent);
+      border-right: 2px solid var(--accent);
+      border-bottom-right-radius: 12px;
+    }
+
+
+    .brand h1 {
+      margin: 0;
+      font-size: 18px
+    }
+
+    nav {
+      display: flex;
+      gap: 14px
+    }
+
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      padding: 8px 12px;
+      border-radius: 8px
+    }
+
+    nav a:hover {
+      color: #fff;
+      background: var(--glass)
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+      align-items: center;
+      margin-bottom: 28px
+    }
+
+    .card {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+      border-radius: 14px;
+      padding: 20px;
+      /* Tech frame styling */
+      border: 1px solid rgba(124, 58, 237, 0.3);
+      box-shadow: 0 0 20px rgba(124, 58, 237, 0.15);
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      border-color: rgba(124, 58, 237, 0.6);
+      box-shadow: 0 0 30px rgba(124, 58, 237, 0.25);
+    }
+
+    /* Corner accents for the tech feel */
+    .card::before,
+    .card::after {
+      content: "";
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      pointer-events: none;
+      transition: all 0.3s ease;
+    }
+
+    .card::before {
+      top: -1px;
+      left: -1px;
+      border-top: 2px solid var(--accent);
+      border-left: 2px solid var(--accent);
+      border-top-left-radius: 8px;
+    }
+
+    .card::after {
+      bottom: -1px;
+      right: -1px;
+      border-bottom: 2px solid var(--accent);
+      border-right: 2px solid var(--accent);
+      border-bottom-right-radius: 8px;
+    }
+
+    .intro h2 {
+      margin: 0 0 8px 0;
+      font-size: 24px
+    }
+
+    .intro p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.5
+    }
+
+    .badges {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+      flex-wrap: wrap
+    }
+
+    .badge {
+      background: rgba(255, 255, 255, 0.03);
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 13px;
+      color: var(--muted)
+    }
+
+    .photo {
+      height: 360px;
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center
+    }
+
+    .photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover
+    }
+
+    .projects {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+      margin-bottom: 24px
+    }
+
+    .project {
+      display: flex;
+      flex-direction: column;
+      gap: 12px
+    }
+
+    .project .thumb {
+      height: 160px;
+      border-radius: 10px;
+      overflow: hidden
+    }
+
+    .project h3 {
+      margin: 0
+    }
+
+    .project p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px
+    }
+
+    .tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap
+    }
+
+    .tag {
+      font-size: 12px;
+      padding: 6px 8px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.02);
+      color: var(--muted)
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 10px 14px;
+      border-radius: 10px;
+      text-decoration: none
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: white
+    }
+
+    .center {
+      display: flex;
+      justify-content: center
+    }
+
+    footer {
+      margin-top: 24px;
+      color: var(--muted);
+      font-size: 14px;
+      text-align: center
+    }
+
+    /* Custom PC project expanded area */
+    .pc-grid {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 16px
+    }
+
+    .specs {
+      background: rgba(255, 255, 255, 0.01);
+      padding: 12px;
+      border-radius: 10px
+    }
+
+    .specs ul {
+      margin: 0;
+      padding: 0;
+      list-style: none
+    }
+
+    .specs li {
+      padding: 8px 6px;
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.03);
+      font-size: 14px
+    }
+
+    /* responsive */
+    @media (max-width:900px) {
+      .hero {
+        grid-template-columns: 1fr
+      }
+
+      .projects {
+        grid-template-columns: 1fr
+      }
+
+      .pc-grid {
+        grid-template-columns: 1fr
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo">
+          <img src="./profile_logo.png" alt="V" style="width:100%;height:100%;object-fit:cover">
+        </div>
+        <div>
+          <h1>Venkat — Engineering Student</h1>
+          <div style="font-size:13px;color:var(--muted)">CSE • Vizag • Builder & Tinkerer</div>
+        </div>
+      </div>
+      <nav>
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div class="card intro" id="about">
+        <h2>Hey — I'm Venkat.</h2>
+        <p>3rd-year B.Tech CSE student. I build projects that matter — web apps, small games, and I also assemble custom
+          PCs when I need raw power. I like making things that are useful and look clean.</p>
+        <div class="badges">
+          <div class="badge">C</div>
+          <div class="badge">C++</div>
+          <div class="badge">HTML/CSS</div>
+          <div class="badge">Java</div>
+          <div class="badge">Electronics</div>
+          <div class="badge">Unity Engine</div>
+        </div>
+        <div style="margin-top:14px">
+          <a class="btn btn-primary" href="#projects">See projects</a>
+          <a class="btn"
+            style="margin-left:8px;background:transparent;color:var(--muted);border:1px solid rgba(255,255,255,0.03);">Download
+            CV</a>
+        </div>
+      </div>
+
+
+    </section>
+
+    <section id="projects">
+      <h2 style="margin-bottom:12px">Selected Projects</h2>
+      <div class="projects">
+        <!-- Project: Custom PC Build -->
+        <article class="card project">
+          <div class="thumb">
+            <img src="./pc_setup.jpg" alt="pc-build" style="width:100%;height:100%;object-fit:cover">
+          </div>
+          <div>
+            <h3>Custom PC Build — Gaming & Dev Workstation</h3>
+            <p>A full walkthrough of a custom PC I designed and assembled: part selection, compatibility checks, thermal
+              planning, assembly, and benchmarking.</p>
+            <div class="tags" style="margin-top:8px">
+              <span class="tag">Hardware</span>
+              <span class="tag">Thermals</span>
+              <span class="tag">Benchmarks</span>
+            </div>
+            <div style="margin-top:8px">
+              <a class="btn btn-primary" href="#pc-details">Read details</a>
+              <a class="btn" style="margin-left:8px">Gallery</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project: VR Game -->
+        <article class="card project">
+          <div class="thumb">
+            <img src="./vr_unity_combo.png" alt="vr-game-unity" style="width:100%;height:100%;object-fit:cover">
+          </div>
+          <div>
+            <h3>Virtual Reality Gun Game</h3>
+            <p>Gangster Gungeon, a Virtual Reality Experience that I developed using Unity Engine 6000. A basic sandbox
+              gun shooting combat game offering an immersive experience.</p>
+            <div class="tags" style="margin-top:8px">
+              <span class="tag">Unity 6000</span>
+              <span class="tag">VR</span>
+              <span class="tag">C#</span>
+              <span class="tag">Game Dev</span>
+            </div>
+            <div style="margin-top:8px">
+              <a class="btn btn-primary" href="#">Demo</a>
+              <a class="btn" style="margin-left:8px">Repo</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project: Dronify -->
+        <article class="card project">
+          <div class="thumb">
+            <img src="./dronify_logo.png" alt="drone-delivery" style="width:100%;height:100%;object-fit:cover">
+          </div>
+          <div>
+            <h3>Dronify — Drone-Based Delivery System (Simulation of Customer and Captain Apps)</h3>
+            <p>A conceptual and technical exploration of drone-based delivery for food, groceries, and medicines.
+              Designed as a simulation using GTA 5 modding to model pickup, navigation, and drop mechanics.</p>
+            <div class="tags" style="margin-top:8px">
+              <span class="tag">Simulation</span>
+              <span class="tag">Systems Design</span>
+              <span class="tag">Automation</span>
+              <span class="tag">Problem Solving</span>
+            </div>
+            <div style="margin-top:8px">
+              <a class="btn btn-primary" href="#">View Concept</a>
+              <a class="btn" style="margin-left:8px">Repo</a>
+            </div>
+          </div>
+        </article>
+
+      </div>
+
+      <!-- Expanded Custom PC section -->
+      <div id="pc-details" class="card" style="margin-top:16px">
+        <h3>Custom PC Build — Specifications</h3>
+        <div class="pc-grid" style="margin-top:12px">
+          <div>
+            <p style="color:var(--muted)">This project documents a full custom PC build made to balance gaming and
+              development workloads: fast compile times, reasonable GPU performance for ML experimentation, and clean
+              thermals for prolonged use.</p>
+
+            <h4 style="margin-top:12px">What I did</h4>
+            <ul style="color:var(--muted)">
+              <li>Requirements gathering: target uses, budget, noise constraints</li>
+              <li>Part selection & compatibility checks (CPU, MB, RAM, GPU, PSU, Case)</li>
+              <li>Design of airflow and cable management</li>
+              <li>Assembly and debugging</li>
+              <li>Benchmarking (CPU, GPU, SSD), thermals and power draw</li>
+              <li>Final photos and build log</li>
+            </ul>
+
+            <h4 style="margin-top:12px">Build Log / Lessons</h4>
+            <p style="color:var(--muted)">Document things: torque on cooler screws, BIOS settings, and how I fixed an
+              inconsistent POST due to a loose PCIe power cable. Also learned to prioritize a good PSU and fan curve
+              tuning.</p>
+            <p style="color:var(--muted);margin-top:8px"><strong>Critical Upgrade:</strong> Initially paired the RTX
+              4060 with an older 450W unit, which caused the older PSU to catch fire and short circuit. Upgraded to a
+              Cooler Master 650W Bronze
+              PSU to ensure sufficient headroom and reliable power delivery, eliminating previous power-related crashes.
+            </p>
+
+            <div style="margin-top:12px">
+              <a class="btn btn-primary" href="pc-build.html">Want the full spec & photos?</a>
+            </div>
+          </div>
+
+          <aside class="specs">
+            <h4 style="margin:0 0 8px 0">My Build Specs</h4>
+            <ul>
+              <li><strong>CPU:</strong> AMD Ryzen 5 5600X</li>
+              <li><strong>GPU:</strong> Nvidia GeForce RTX 4060 Eagle Edition</li>
+              <li><strong>Motherboard:</strong> MSI B550M WIFI+Bluetooth</li>
+              <li><strong>RAM:</strong> XPG 16GB (1x16GB) DDR4 3600MHz</li>
+              <li><strong>Storage:</strong> 512GB NVMe SSD</li>
+              <li><strong>PSU:</strong> Cooler Master 650W Bronze</li>
+              <li><strong>PC Cabinet:</strong> Zebronics Viking RGB Cabinet</li>
+              <li><strong>Cooling:</strong> Stock CPU and GPU Coolers</li>
+              <li><strong>Benchmarks:</strong> Cinebench R23 single: ~1500 (example)</li>
+            </ul>
+          </aside>
+
+        </div>
+      </div>
+
+    </section>
+
+    <section id="contact" style="margin-top:18px" class="card">
+      <h3>Contact</h3>
+      <p style="color:var(--muted)">Email: <a href="mailto:venkat.padimi@gmail.com">venkat.padimi@gmail.com</a> —
+        GitHub: <a href="https://github.com/Venkat-Padimi">github.com/Venkat-Padimi</a></p>
+      <div style="margin-top:8px;color:var(--muted)">Want this as a downloadable resume or a deployed site? Tell me and
+        I’ll help set it up (GitHub Pages / Netlify).</div>
+    </section>
+
+    <footer>
+      Built with ❤️ by Venkat
+    </footer>
+  </div>
+
+  <script>
+    // small nav smooth scroll behavior
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+  </script>
+</body>
+
+</html>
